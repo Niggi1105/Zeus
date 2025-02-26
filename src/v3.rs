@@ -1,4 +1,4 @@
-use std::ops::{Add, Div, Mul, Sub};
+use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Sub, SubAssign};
 
 #[derive(Debug, Clone, Copy, Default)]
 pub struct Vector3<F>
@@ -35,6 +35,23 @@ where
         }
     }
 }
+impl<F> MulAssign<F> for Vector3<F>
+where
+    F: Mul<Output = F>
+        + Div<Output = F>
+        + Add<Output = F>
+        + Sub<Output = F>
+        + Copy
+        + PartialOrd
+        + PartialEq,
+{
+    fn mul_assign(&mut self, rhs: F) {
+        self.x = self.x * rhs;
+        self.y = self.y * rhs;
+        self.z = self.z * rhs;
+    }
+}
+
 impl<F> Div<F> for Vector3<F>
 where
     F: Mul<Output = F>
@@ -52,6 +69,22 @@ where
             y: self.y / rhs,
             z: self.z / rhs,
         }
+    }
+}
+impl<F> DivAssign<F> for Vector3<F>
+where
+    F: Mul<Output = F>
+        + Div<Output = F>
+        + Add<Output = F>
+        + Sub<Output = F>
+        + Copy
+        + PartialOrd
+        + PartialEq,
+{
+    fn div_assign(&mut self, rhs: F) {
+        self.x = self.x / rhs;
+        self.y = self.y / rhs;
+        self.z = self.z / rhs;
     }
 }
 
@@ -91,6 +124,22 @@ where
         }
     }
 }
+impl<F> AddAssign for Vector3<F>
+where
+    F: Mul<Output = F>
+        + Div<Output = F>
+        + Add<Output = F>
+        + Sub<Output = F>
+        + Copy
+        + PartialOrd
+        + PartialEq,
+{
+    fn add_assign(&mut self, rhs: Self) {
+        self.x = self.x + rhs.x;
+        self.y = self.y + rhs.y;
+        self.z = self.z + rhs.z;
+    }
+}
 
 impl<F> Sub for Vector3<F>
 where
@@ -109,6 +158,22 @@ where
             y: self.y - rhs.y,
             z: self.z - rhs.z,
         }
+    }
+}
+impl<F> SubAssign for Vector3<F>
+where
+    F: Mul<Output = F>
+        + Div<Output = F>
+        + Add<Output = F>
+        + Sub<Output = F>
+        + Copy
+        + PartialOrd
+        + PartialEq,
+{
+    fn sub_assign(&mut self, rhs: Self) {
+        self.x = self.x - rhs.x;
+        self.y = self.y - rhs.y;
+        self.z = self.z - rhs.z;
     }
 }
 

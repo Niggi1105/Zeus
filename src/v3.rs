@@ -1,6 +1,6 @@
 use std::ops::{Add, Div, Mul, Sub};
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, Default)]
 pub struct Vector3<F>
 where
     F: Mul<Output = F>

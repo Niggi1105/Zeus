@@ -196,12 +196,12 @@ where
     }
 
     pub fn len2(&self) -> F {
-        *self * *self
+        (*self) * (*self)
     }
 
-    pub fn len(&self) -> f64
+    pub fn len(&self) -> f32
     where
-        F: Into<f64>,
+        F: Into<f32>,
     {
         let l = self.len2().into();
         l.sqrt()
@@ -209,7 +209,7 @@ where
 
     pub fn normalized(&self) -> Self
     where
-        F: From<f64> + Into<f64>,
+        F: From<f32> + Into<f32>,
     {
         *self / self.len().into()
     }

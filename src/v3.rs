@@ -1,4 +1,4 @@
-use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Sub, SubAssign};
+use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub, SubAssign};
 
 #[derive(Debug, Clone, Copy, Default, PartialEq)]
 pub struct Vector3<F>
@@ -16,6 +16,26 @@ where
     z: F,
 }
 
+impl<F> Neg for Vector3<F>
+where
+    F: Mul<Output = F>
+        + Div<Output = F>
+        + Add<Output = F>
+        + Sub<Output = F>
+        + Neg<Output = F>
+        + Copy
+        + PartialOrd
+        + PartialEq,
+{
+    type Output = Self;
+    fn neg(self) -> Self::Output {
+        Vector3 {
+            x: -self.x,
+            y: -self.y,
+            z: -self.z,
+        }
+    }
+}
 impl<F> Mul<F> for Vector3<F>
 where
     F: Mul<Output = F>

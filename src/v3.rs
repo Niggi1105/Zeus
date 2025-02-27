@@ -246,7 +246,7 @@ where
 #[cfg(feature = "random")]
 mod random {
     use super::*;
-    use rand::{self, Rng};
+    use rand::{self, distr::uniform::SampleUniform};
 
     impl<F> Vector3<F>
     where
@@ -258,15 +258,16 @@ mod random {
             + PartialOrd
             + PartialEq,
     {
-        fn new_random(upper: F, lower: F) -> Self
+        pub fn new_random(upper: F, lower: F) -> Self
         where
-            F: From<f32> + Into<f32>,
+            F: SampleUniform,
         {
             let mut rng = rand::rng();
+            let d = rand::distr::Uniform::new(lower, upper).unwrap();
             Self {
-                x: rng.random::<f32>().into(),
-                y: rng.random::<f32>().into(),
-                z: rng.random::<f32>().into(),
+                x: d.sample(&mut rng),
+                y: d.sample(&mut rng),
+                z: d.sample(&mut rng),
             }
         }
     }

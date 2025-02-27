@@ -13,9 +13,9 @@ where
         + PartialOrd
         + PartialEq,
 {
-    x: F,
-    y: F,
-    z: F,
+    pub x: F,
+    pub y: F,
+    pub z: F,
 }
 
 impl<F> Neg for Vector3<F>

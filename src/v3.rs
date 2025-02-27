@@ -1,5 +1,7 @@
 use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub, SubAssign};
 
+use rand::distr::Distribution;
+
 #[derive(Debug, Clone, Copy, Default, PartialEq)]
 pub struct Vector3<F>
 where
@@ -238,5 +240,34 @@ where
     pub fn proj(&self, other: &Self) -> Self {
         let t = (*self * *other) / (*other * *other);
         *other * t
+    }
+}
+
+#[cfg(feature = "random")]
+mod random {
+    use super::*;
+    use rand::{self, Rng};
+
+    impl<F> Vector3<F>
+    where
+        F: Mul<Output = F>
+            + Div<Output = F>
+            + Add<Output = F>
+            + Sub<Output = F>
+            + Copy
+            + PartialOrd
+            + PartialEq,
+    {
+        fn new_random(upper: F, lower: F) -> Self
+        where
+            F: From<f32> + Into<f32>,
+        {
+            let mut rng = rand::rng();
+            Self {
+                x: rng.random::<f32>().into(),
+                y: rng.random::<f32>().into(),
+                z: rng.random::<f32>().into(),
+            }
+        }
     }
 }

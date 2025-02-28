@@ -1,4 +1,7 @@
-use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub, SubAssign};
+use std::{
+    cmp::Ordering,
+    ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub, SubAssign},
+};
 
 use rand::distr::Distribution;
 
@@ -273,5 +276,37 @@ mod random {
                 z: d.sample(&mut rng),
             }
         }
+    }
+}
+
+impl<F> PartialOrd for Vector3<F>
+where
+    F: PartialOrd + Copy + Sub<Output = F> + Mul<Output = F> + Add<Output = F> + Div<Output = F>,
+{
+    fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
+        if self.x > other.x && self.y > other.y && self.z > other.z {
+            Some(Ordering::Greater)
+        } else if self.x < other.x && self.y < other.y && self.z < other.z {
+            Some(Ordering::Less)
+        } else if self.x == other.x && self.y == other.y && self.z == other.z {
+            Some(Ordering::Equal)
+        } else {
+            None
+        }
+    }
+}
+
+#[cfg(test)]
+mod test {
+    use super::Vector3;
+
+    #[test]
+    fn test_ordering() {
+        let v1 = Vector3::new(1, 2, 3);
+        let v2 = Vector3::new(0, 1, 2);
+
+        assert!(v1 > v2);
+        assert!(v1 == v1 && v2 == v2);
+        assert!(v2 < v1);
     }
 }

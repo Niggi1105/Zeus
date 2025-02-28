@@ -209,6 +209,9 @@ where
         + PartialOrd
         + PartialEq,
 {
+    pub fn new(x: F, y: F, z: F) -> Self {
+        Self { x, y, z }
+    }
     pub fn crossp(&self, rhs: &Self) -> Self {
         Vector3 {
             x: self.y * rhs.z - rhs.y * self.z,
